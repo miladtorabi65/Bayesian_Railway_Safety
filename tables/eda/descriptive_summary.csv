@@ -1,0 +1,17 @@
+Statistic,Value
+Number of observations,405.0
+Number of countries,27.0
+Number of years,15.0
+Total significant accidents,27121.0
+Mean accidents per country-year,66.96543209876543
+Variance of accidents,6579.340386260849
+Median accidents,36.0
+Minimum accidents,0.0
+Maximum accidents,488.0
+Zero-accident observations,7.0
+Mean train-km,143.4087856778483
+Median train-km,62.8
+Minimum train-km,6.5
+Maximum train-km,1146.6
+Mean accident rate,0.7773252817176881
+Median accident rate,0.5
