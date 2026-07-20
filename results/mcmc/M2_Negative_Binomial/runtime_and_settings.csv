@@ -1,0 +1,2 @@
+"model","elapsed_seconds","chains","adaptation_iterations","burnin_iterations","sampling_iterations","thinning"
+"M2_Negative_Binomial",742.040000000008,4,5000,10000,50000,1

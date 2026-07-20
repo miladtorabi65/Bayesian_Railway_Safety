@@ -1,0 +1,4 @@
+"model","probability_beta_below_zero","probability_annual_rate_ratio_below_one","probability_2010_2024_decline"
+"M1_Poisson",1,1,1
+"M2_Negative_Binomial",1,1,1
+"M3_Hierarchical_Negative_Binomial",1,1,1
