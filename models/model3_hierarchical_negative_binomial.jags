@@ -1,0 +1,105 @@
+model {
+
+    # ========================================================
+    # Likelihood
+    # ========================================================
+
+    for (n in 1:N) {
+
+        accidents[n] ~ dnegbin(
+            p[n],
+            r
+        )
+
+        p[n] <-
+            r / (r + mu[n])
+
+        log(mu[n]) <-
+            log(train_km[n]) +
+            alpha +
+            beta * year_centered[n] +
+            u[country_id[n]]
+    }
+
+
+    # ========================================================
+    # Country-level random effects
+    #
+    # Raw Gaussian effects are centered to enforce:
+    #
+    # sum(u[j]) = 0
+    #
+    # The scaling correction preserves approximately the
+    # intended marginal standard deviation sigma_country.
+    # ========================================================
+
+    tau_country <-
+        1 / pow(sigma_country, 2)
+
+    scale_adjust <-
+        sqrt(
+            N_country
+            /
+            (N_country - 1)
+        )
+
+
+    for (j in 1:N_country) {
+
+        u_raw[j] ~ dnorm(
+            0,
+            tau_country
+        )
+    }
+
+
+    mean_u_raw <-
+        mean(
+            u_raw[]
+        )
+
+
+    for (j in 1:N_country) {
+
+        u[j] <-
+            scale_adjust
+            *
+            (
+                u_raw[j]
+                -
+                mean_u_raw
+            )
+
+        country_rate_ratio[j] <-
+            exp(
+                u[j]
+            )
+    }
+
+
+    # ========================================================
+    # Priors
+    # ========================================================
+
+    alpha ~ dnorm(log(0.5), 4)
+
+    beta ~ dnorm(0, 400)
+
+    log_r ~ dnorm(log(10), 1)
+
+    r <- exp(log_r)
+
+    sigma_country ~ dnorm(0, 4) T(0,)
+
+
+    # ========================================================
+    # Derived quantities
+    # ========================================================
+
+    baseline_rate <- exp(alpha)
+
+    annual_rate_ratio <- exp(beta)
+
+    annual_percent_change <-
+        100 * (annual_rate_ratio - 1)
+}

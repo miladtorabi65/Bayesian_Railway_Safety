@@ -1,0 +1,47 @@
+model {
+
+    # ========================================================
+    # Likelihood
+    # ========================================================
+
+    for (n in 1:N) {
+
+        accidents[n] ~ dnegbin(
+            p[n],
+            r
+        )
+
+        p[n] <-
+            r / (r + mu[n])
+
+        log(mu[n]) <-
+            log(train_km[n]) +
+            alpha +
+            beta * year_centered[n]
+    }
+
+
+    # ========================================================
+    # Priors
+    # ========================================================
+
+    alpha ~ dnorm(log(0.5), 4)
+
+    beta ~ dnorm(0, 400)
+
+    log_r ~ dnorm(log(10), 1)
+
+    r <- exp(log_r)
+
+
+    # ========================================================
+    # Derived quantities
+    # ========================================================
+
+    baseline_rate <- exp(alpha)
+
+    annual_rate_ratio <- exp(beta)
+
+    annual_percent_change <-
+        100 * (annual_rate_ratio - 1)
+}
