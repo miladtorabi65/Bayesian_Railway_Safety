@@ -82,18 +82,18 @@ Raw accident counts are not directly comparable across countries because railway
 
 The expected count is therefore modeled as:
 
-\[
+$$
 \mu_{it}
 =
 E_{it}
 \exp(\alpha + \beta x_t + u_i),
-\]
+$$
 
 where \(E_{it}\) is train-km exposure.
 
 Equivalently, on the log scale:
 
-\[
+$$
 \log(\mu_{it})
 =
 \log(E_{it})
@@ -103,7 +103,7 @@ Equivalently, on the log scale:
 \beta x_t
 +
 u_i.
-\]
+$$
 
 The term \(\log(E_{it})\) is an **offset** with coefficient fixed at one. This makes the model describe accident **rates** while retaining an appropriate count-data likelihood.
 
