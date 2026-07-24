@@ -1,0 +1,23 @@
+ Family: nbinom2  ( log )
+Formula:          
+accidents ~ year_centered + offset(log(train_km)) + (1 | country_id)
+Data: data
+
+      AIC       BIC    logLik -2*log(L)  df.resid 
+   3094.6    3110.6   -1543.3    3086.6       401 
+
+Random effects:
+
+Conditional model:
+ Groups     Name        Variance Std.Dev.
+ country_id (Intercept) 0.7043   0.8392  
+Number of obs: 405, groups:  country_id, 27
+
+Dispersion parameter for nbinom2 family (): 33.6 
+
+Conditional model:
+               Estimate Std. Error z value Pr(>|z|)    
+(Intercept)   -0.598142   0.162225  -3.687 0.000227 ***
+year_centered -0.033288   0.002758 -12.070  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1

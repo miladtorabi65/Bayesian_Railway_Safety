@@ -1,0 +1,2 @@
+"analysis","elapsed_seconds","chains","adaptation_iterations","burnin_iterations","sampling_iterations","thinning"
+"M3_excluding_2020",679.579999999987,4,3000,5000,10000,1
