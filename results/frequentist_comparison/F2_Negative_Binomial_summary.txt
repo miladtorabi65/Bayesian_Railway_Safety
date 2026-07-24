@@ -1,0 +1,25 @@
+
+Call:
+MASS::glm.nb(formula = accidents ~ year_centered + offset(log(train_km)), 
+    data = data, link = log, init.theta = 1.616436132)
+
+Coefficients:
+              Estimate Std. Error z value Pr(>|z|)    
+(Intercept)   -0.29497    0.04033  -7.314 2.59e-13 ***
+year_centered -0.04327    0.00934  -4.633 3.60e-06 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for Negative Binomial(1.6164) family taken to be 1)
+
+    Null deviance: 478.08  on 404  degrees of freedom
+Residual deviance: 456.56  on 403  degrees of freedom
+AIC: 3948.5
+
+Number of Fisher Scoring iterations: 1
+
+
+              Theta:  1.616 
+          Std. Err.:  0.114 
+
+ 2 x log-likelihood:  -3942.474 
