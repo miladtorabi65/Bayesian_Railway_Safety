@@ -82,18 +82,18 @@ Raw accident counts are not directly comparable across countries because railway
 
 The expected count is therefore modeled as:
 
-$$
+```math
 \mu_{it}
 =
 E_{it}
-\exp(\alpha + \beta x_t + u_i),
-$$
+\exp(\alpha + \beta x_t + u_i)
+```
 
-where \(E_{it}\) is train-km exposure.
+where $E_{it}$ is train-km exposure.
 
 Equivalently, on the log scale:
 
-$$
+```math
 \log(\mu_{it})
 =
 \log(E_{it})
@@ -103,9 +103,9 @@ $$
 \beta x_t
 +
 u_i.
-$$
+```
 
-The term \(\log(E_{it})\) is an **offset** with coefficient fixed at one. This makes the model describe accident **rates** while retaining an appropriate count-data likelihood.
+The term $\log(E_{it})$ is an **offset** with coefficient fixed at one. This makes the model describe accident **rates** while retaining an appropriate count-data likelihood.
 
 ---
 
@@ -144,13 +144,13 @@ Observed country-level rates ranged from approximately 0.12 to 2.25 accidents pe
 
 ### M1 — Poisson Regression
 
-\[
+```math
 Y_{it}
 \sim
 \operatorname{Poisson}(\mu_{it})
-\]
+```
 
-\[
+```math
 \log(\mu_{it})
 =
 \log(E_{it})
@@ -158,27 +158,27 @@ Y_{it}
 \alpha
 +
 \beta x_t
-\]
+```
 
 with:
 
-\[
+```math
 \operatorname{Var}(Y_{it}\mid\mu_{it})
 =
-\mu_{it}.
-\]
+\mu_{it}
+```
 
 M1 is the simplest exposure-adjusted count model. Its main limitation is the assumption that the conditional variance equals the conditional mean.
 
 ### M2 — Negative Binomial Regression
 
-\[
+```math
 Y_{it}
 \sim
 \operatorname{NB}(\mu_{it}, r)
-\]
+```
 
-\[
+```math
 \log(\mu_{it})
 =
 \log(E_{it})
@@ -186,34 +186,34 @@ Y_{it}
 \alpha
 +
 \beta x_t
-\]
+```
 
 with:
 
-\[
+```math
 \operatorname{Var}(Y_{it})
 =
 \mu_{it}
 +
-\frac{\mu_{it}^{2}}{r}.
-\]
+\frac{\mu_{it}^{2}}{r}
+```
 
-The parameter \(r\) controls extra-Poisson variation:
+The parameter $r$ controls extra-Poisson variation:
 
-- smaller \(r\): stronger overdispersion
-- larger \(r\): distribution closer to Poisson
+- smaller $r$: stronger overdispersion
+- larger $r$: distribution closer to Poisson
 
 M2 allows extra variation but does not explicitly model persistent country structure.
 
 ### M3 — Hierarchical Negative Binomial Regression
 
-\[
+```math
 Y_{it}
 \sim
 \operatorname{NB}(\mu_{it}, r)
-\]
+```
 
-\[
+```math
 \log(\mu_{it})
 =
 \log(E_{it})
@@ -223,29 +223,29 @@ Y_{it}
 \beta x_t
 +
 u_i
-\]
+```
 
-\[
+```math
 u_i
 \sim
-\operatorname{Normal}(0,\sigma_{\text{country}}^2).
-\]
+\operatorname{Normal}(0,\sigma_{\text{country}}^2)
+```
 
-The country effect \(u_i\) is shared by all observations from country \(i\). It represents a persistent deviation from the common exposure-adjusted time trend.
+The country effect $u_i$ is shared by all observations from country $i$. It represents a persistent deviation from the common exposure-adjusted time trend.
 
 For interpretation:
 
-\[
+```math
 \exp(u_i)
-\]
+```
 
 is the country-specific relative rate.
 
 The final implementation constrains the country effects to sum to zero:
 
-\[
-\sum_i u_i = 0.
-\]
+```math
+\sum_i u_i = 0
+```
 
 This separates the global intercept from the country effects and improves MCMC mixing and identifiability.
 
@@ -257,12 +257,12 @@ The final priors were selected after prior predictive simulation.
 
 | Parameter | Final prior |
 |---|---|
-| \(\alpha\) | \(\operatorname{Normal}(\log(0.5), 0.5^2)\) |
-| \(\beta\) | \(\operatorname{Normal}(0, 0.05^2)\) |
-| \(\log(r)\) | \(\operatorname{Normal}(\log(10), 1^2)\) |
-| \(\sigma_{\text{country}}\) | Half-Normal\((0, 0.5)\) |
+| `alpha` | Normal(log(0.5), 0.5²) |
+| `beta` | Normal(0, 0.05²) |
+| `log_r` | Normal(log(10), 1²) |
+| `sigma_country` | Half-Normal(0, 0.5) |
 
-The initial priors for \(\alpha\) and \(\sigma_{\text{country}}\) were broader. Prior predictive checks showed that they generated implausibly extreme hierarchical datasets, so they were tightened before fitting the observed accident outcomes.
+The initial priors for $\alpha$ and $\sigma_{\text{country}}$ were broader. Prior predictive checks showed that they generated implausibly extreme hierarchical datasets, so they were tightened before fitting the observed accident outcomes.
 
 Detailed prior documentation is available in:
 
@@ -330,7 +330,7 @@ The final chains showed good mixing and stable posterior sampling.
 
 The main diagnostics indicated:
 
-- \(\hat R\) values essentially equal to 1
+- $\hat R$ values essentially equal to 1
 - large effective sample sizes
 - no visible non-stationarity in the main trace plots
 - well-overlapping chain-specific posterior densities
@@ -361,7 +361,7 @@ The final formal study used:
 
 - 10 independently simulated datasets
 - the real 405-row exposure, year, and country design
-- known values of \(\alpha\), \(\beta\), \(r\), and \(\sigma_{\text{country}}\)
+- known values of $\alpha$, $\beta$, $r$, and $\sigma_{\text{country}}$
 - convergence checks for every replication
 
 All 10 replications passed the predefined convergence criteria.
@@ -370,10 +370,10 @@ All 10 replications passed the predefined convergence criteria.
 
 | Parameter | True value | Mean recovered estimate | Bias | RMSE | 95% coverage |
 |---|---:|---:|---:|---:|---:|
-| \(\alpha\) | -0.6931 | -0.6892 | 0.0039 | 0.0168 | 90% |
-| \(\beta\) | -0.03046 | -0.03004 | 0.00042 | 0.00291 | 100% |
-| \(r\) | 30.0 | 30.66 | 0.66 | 2.53 | 100% |
-| \(\sigma_{\text{country}}\) | 0.80 | 0.770 | -0.030 | 0.094 | 90% |
+| `alpha` | -0.6931 | -0.6892 | 0.0039 | 0.0168 | 90% |
+| `beta` | -0.03046 | -0.03004 | 0.00042 | 0.00291 | 100% |
+| `r` | 30.0 | 30.66 | 0.66 | 2.53 | 100% |
+| `sigma_country` | 0.80 | 0.770 | -0.030 | 0.094 | 90% |
 
 ### Country-effect recovery
 
@@ -392,31 +392,31 @@ These results validate the implementation under realistic simulated conditions. 
 
 Under the preferred M3 model:
 
-\[
+```math
 \exp(\beta)
 \approx
 0.967.
-\]
+```
 
 This corresponds to an estimated annual rate change of:
 
-\[
+```math
 -3.26\%
-\]
+```
 
 with a 95% credible interval of approximately:
 
-\[
+```math
 [-3.78\%, -2.73\%].
-\]
+```
 
 The posterior probability of a declining trend was effectively 1 in the retained posterior sample.
 
 Across 2010–2024, the estimated reduction in the underlying accident rate was approximately:
 
-\[
+```math
 37.1\%
-\]
+```
 
 with a 95% credible interval of approximately 32.2% to 41.7%.
 
@@ -424,19 +424,19 @@ with a 95% credible interval of approximately 32.2% to 41.7%.
 
 For M3:
 
-\[
+```math
 \sigma_{\text{country}}
 \approx
 0.819.
-\]
+```
 
 A one-standard-deviation difference on the country-effect scale corresponds to:
 
-\[
+```math
 \exp(0.819)
 \approx
 2.27.
-\]
+```
 
 Therefore, a one-standard-deviation difference in country effect corresponds to roughly a 2.27-fold multiplicative difference in the underlying exposure-adjusted accident rate.
 
@@ -444,12 +444,12 @@ Country effects should be interpreted as persistent residual associations after 
 
 ### Dispersion before and after country effects
 
-| Model | Estimated \(r\) |
+| Model | Estimated `r` |
 |---|---:|
 | M2 | approximately 1.62 |
 | M3 | approximately 32.84 |
 
-Because larger \(r\) implies less residual overdispersion, this suggests that much of the variation treated as unstructured overdispersion in M2 was explained by persistent country differences in M3.
+Because larger $r$ implies less residual overdispersion, this suggests that much of the variation treated as unstructured overdispersion in M2 was explained by persistent country differences in M3.
 
 ---
 
@@ -457,7 +457,7 @@ Because larger \(r\) implies less residual overdispersion, this suggests that mu
 
 ### DIC
 
-| Model | DIC | \(\Delta\)DIC | Rank |
+| Model | DIC | ΔDIC | Rank |
 |---|---:|---:|---:|
 | M3 Hierarchical Negative Binomial | 2,981.30 | 0 | 1 |
 | M2 Negative Binomial | 3,948.39 | 967.09 | 2 |
@@ -510,8 +510,8 @@ The preferred M3 model was refitted after excluding 2020.
 | Quantity | Main M3 | Excluding 2020 |
 |---|---:|---:|
 | Annual change | -3.26% | -3.14% |
-| \(r\) | 32.85 | 33.46 |
-| \(\sigma_{\text{country}}\) | 0.819 | 0.825 |
+| `r` | 32.85 | 33.46 |
+| `sigma_country` | 0.819 | 0.825 |
 
 The sensitivity model converged successfully, and the main conclusions were essentially unchanged.
 
@@ -554,9 +554,9 @@ The close agreement suggests that the principal substantive conclusions were not
 
 The final preferred model is:
 
-\[
+```math
 \boxed{\text{M3 — Hierarchical Negative Binomial}}
-\]
+```
 
 It was selected because it:
 
