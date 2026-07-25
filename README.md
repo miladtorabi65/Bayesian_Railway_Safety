@@ -840,7 +840,7 @@ Unmeasured structural, regulatory, operational, reporting, and environmental fac
 ## Author
 
 **Milad Torabi**  
-FSL II — Final Project  
+Fundamentals of Statistical Learning II — Final Project  
 Sapienza University of Rome
 
 Professor: Luca Tardella
