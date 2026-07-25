@@ -167,6 +167,8 @@ with:
 =
 \mu_{it}
 ```
+```math
+\text{Var}(Y_{it} \mid \mu_{it}) = \mu_{it}
 
 M1 is the simplest exposure-adjusted count model. Its main limitation is the assumption that the conditional variance equals the conditional mean.
 
