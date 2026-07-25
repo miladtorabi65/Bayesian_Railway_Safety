@@ -144,11 +144,9 @@ Observed country-level rates ranged from approximately 0.12 to 2.25 accidents pe
 
 ### M1 — Poisson Regression
 
-```math
-Y_{it}
-\sim
-\operatorname{Poisson}(\mu_{it})
-```
+$$
+Y_{it} \sim \text{Poisson}(\mu_{it})
+$$
 
 ```math
 \log(\mu_{it})
@@ -162,23 +160,17 @@ Y_{it}
 
 with:
 
-```math
-\operatorname{Var}(Y_{it}\mid\mu_{it})
-=
-\mu_{it}
-```
-```math
+$$
 \text{Var}(Y_{it} \mid \mu_{it}) = \mu_{it}
+$$
 
 M1 is the simplest exposure-adjusted count model. Its main limitation is the assumption that the conditional variance equals the conditional mean.
 
 ### M2 — Negative Binomial Regression
 
-```math
-Y_{it}
-\sim
-\operatorname{NB}(\mu_{it}, r)
-```
+$$
+Y_{it} \sim \text{NB}(\mu_{it}, r)
+$$
 
 ```math
 \log(\mu_{it})
@@ -192,13 +184,9 @@ Y_{it}
 
 with:
 
-```math
-\operatorname{Var}(Y_{it})
-=
-\mu_{it}
-+
-\frac{\mu_{it}^{2}}{r}
-```
+$$
+\text{Var}(Y_{it}) = \mu_{it} + \frac{\mu_{it}^{2}}{r}
+$$
 
 The parameter $r$ controls extra-Poisson variation:
 
@@ -209,11 +197,9 @@ M2 allows extra variation but does not explicitly model persistent country struc
 
 ### M3 — Hierarchical Negative Binomial Regression
 
-```math
-Y_{it}
-\sim
-\operatorname{NB}(\mu_{it}, r)
-```
+$$
+Y_{it} \sim \text{NB}(\mu_{it}, r)
+$$
 
 ```math
 \log(\mu_{it})
@@ -227,11 +213,9 @@ Y_{it}
 u_i
 ```
 
-```math
-u_i
-\sim
-\operatorname{Normal}(0,\sigma_{\text{country}}^2)
-```
+$$
+u_i \sim \text{Normal}(0, \sigma_{\text{country}}^2)
+$$
 
 The country effect $u_i$ is shared by all observations from country $i$. It represents a persistent deviation from the common exposure-adjusted time trend.
 
